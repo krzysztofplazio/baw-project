@@ -1,6 +1,7 @@
-@Project.Baw_HostAddress = http://localhost:5055
+POST https://localhost:7203/connect/token
+Content-Type: application/x-www-form-urlencoded
 
-GET {{Project.Baw_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
+grant_type=password&
+username=admin@baw.pl&
+password=Admin123!&
+client_id=local-client
