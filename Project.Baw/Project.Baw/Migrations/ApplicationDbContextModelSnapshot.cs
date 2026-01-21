@@ -465,9 +465,6 @@ namespace Project.Baw.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentityUserId")
-                        .IsUnique();
-
                     b.ToTable("clients", (string)null);
                 });
 
@@ -613,17 +610,6 @@ namespace Project.Baw.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("Project.Baw.Database.Models.Client", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
-                        .WithOne()
-                        .HasForeignKey("Project.Baw.Database.Models.Client", "IdentityUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("IdentityUser");
                 });
 
             modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictEntityFrameworkCoreApplication", b =>

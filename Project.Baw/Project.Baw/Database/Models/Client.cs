@@ -6,9 +6,7 @@ public class Client
 {
     public Guid Id { get; set; }
 
-    public required string IdentityUserId { get; set; } = null!;
-
-    public IdentityUser IdentityUser { get; set; } = null!;
+    public string IdentityUserId { get; set; } = null!;
 
     public string Phone { get; set; } = null!;
 

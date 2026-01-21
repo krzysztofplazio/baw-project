@@ -15,11 +15,6 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
         builder.Property(c => c.Id)
             .ValueGeneratedNever();
 
-        builder.HasOne(c => c.IdentityUser)
-            .WithOne()
-            .HasForeignKey<Client>(c => c.IdentityUserId)
-            .IsRequired();
-
         builder.Property(c => c.Phone)
             .IsRequired()
             .HasMaxLength(20);

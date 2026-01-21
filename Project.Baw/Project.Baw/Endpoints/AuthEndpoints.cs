@@ -90,11 +90,11 @@ public static class AithEndpoints
 
         var result = await userManager.CreateAsync(user, request.Password);
 
-        db.Clients.Add(new Client()
+        db.Clients.Add(new Client
         {
             Id = Guid.NewGuid(),
             IdentityUserId = user.Id,
-            Phone = request.Phone
+            Phone = request.Phone,
         });
         await db.SaveChangesAsync();
 
