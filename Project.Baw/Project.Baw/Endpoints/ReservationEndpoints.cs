@@ -12,7 +12,7 @@ public static class ReservationEndpoints
     public static WebApplication MapReservationEndpoints(this WebApplication app)
     {
         var root = app.MapGroup("/api")
-            .RequireAuthorization()
+            .RequireAuthorization("DefaultPolicy")
             .WithTags("Reservations");
 
         root.MapGet("/services", GetServices);

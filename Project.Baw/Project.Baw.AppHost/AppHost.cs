@@ -1,7 +1,7 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
 
-var postgres = builder.AddPostgres("postgres");
+var postgres = builder.AddPostgres("postgres", port: 54320);
 var postgresdb = postgres.AddDatabase("VisitDb");
 
 var api = builder.AddProject<Projects.Project_Baw>("Api")

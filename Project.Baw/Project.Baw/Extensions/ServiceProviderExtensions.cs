@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
+using OpenIddict.Validation.AspNetCore;
 using Project.Baw.Database;
 
 namespace Project.Baw.Extensions;
@@ -26,9 +27,12 @@ public static class ServiceProviderExtensions
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAuthentication();
-            services.AddAuthorization();
-            
+            services.AddAuthorizationBuilder().AddPolicy("DefaultPolicy",
+                policy =>
+                {
+                    policy.AuthenticationSchemes = [OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme];
+                    policy.RequireAuthenticatedUser();
+                });
             services.AddOpenIddict()
                 .AddCore(options =>
                 {
@@ -37,19 +41,16 @@ public static class ServiceProviderExtensions
                 })
                 .AddServer(options =>
                 {
-                    options.SetTokenEndpointUris("/connect/token");
+                    options.SetTokenEndpointUris("connect/token");
 
                     options.AllowPasswordFlow();
                     options.AllowRefreshTokenFlow();
 
-                    options.RegisterScopes(
-                        OpenIddictConstants.Scopes.OpenId,
-                        OpenIddictConstants.Scopes.Profile,
-                        OpenIddictConstants.Scopes.Email,
-                        OpenIddictConstants.Scopes.OfflineAccess,
-                        "api"
-                    );
-                    
+                    options.AcceptAnonymousClients();
+
+                    options.SetAccessTokenLifetime(TimeSpan.FromMinutes(60));
+                    options.SetRefreshTokenLifetime(TimeSpan.FromDays(30));
+
                     options.AddDevelopmentEncryptionCertificate()
                         .AddDevelopmentSigningCertificate();
 
