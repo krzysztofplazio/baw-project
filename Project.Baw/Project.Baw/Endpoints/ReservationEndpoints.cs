@@ -59,7 +59,7 @@ public static class ReservationEndpoints
         var appointment = new Appointment
         {
             Id = Guid.NewGuid(),
-            Date = request.Date,
+            Date = DateTime.SpecifyKind(request.Date, DateTimeKind.Utc),
             ClientId = client.Id,
             ServiceId = request.ServiceId
         };
@@ -125,6 +125,13 @@ public static class ReservationEndpoints
         if (appointment == null)
             return Results.NotFound();
 
+        if (!await db.Appointments
+                .Include(a => a.Client)
+                .AnyAsync(a => a.Id == id && a.Client.IdentityUserId != identityUserId))
+        {
+            return Results.Unauthorized();
+        }
+
         return Results.Ok(appointment);
     }
     
@@ -147,6 +154,13 @@ public static class ReservationEndpoints
 
         if (appointment == null)
             return Results.NotFound();
+        
+        if (!await db.Appointments
+                .Include(a => a.Client)
+                .AnyAsync(a => a.Id == id && a.Client.IdentityUserId != identityUserId))
+        {
+            return Results.Unauthorized();
+        }
 
         db.Appointments.Remove(appointment);
         await db.SaveChangesAsync();

@@ -21,11 +21,22 @@ public static class ServiceProviderExtensions
             return services;
         }
 
-        public IServiceCollection AddOpenIddictAuth()
+        public IServiceCollection AddOpenIddictAuth(IConfiguration configuration)
         {
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+            
+            var origins = configuration.GetSection("Origins").Get<string[]>() ??
+                                throw new InvalidOperationException("No origins are configured in application settings.");
+            
+            services.AddCors(options
+                => options.AddPolicy("AllowSpecificOrigin",
+                    policy => policy
+                        .WithOrigins(origins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()));
 
             services.AddAuthorizationBuilder().AddPolicy("DefaultPolicy",
                 policy =>

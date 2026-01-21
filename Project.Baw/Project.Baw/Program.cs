@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddDatabase(builder.Configuration);
-builder.Services.AddOpenIddictAuth();
+builder.Services.AddOpenIddictAuth(builder.Configuration);
 
 var app = builder.Build();
 
@@ -22,6 +22,8 @@ if (app.Environment.IsDevelopment())
     await MigrationHelpers.MigrateDatabase(services);
     await OpenIddictHelpers.SeedAsync(services);
 }
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
