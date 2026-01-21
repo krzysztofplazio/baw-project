@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Project.Baw.Database;
@@ -11,9 +12,11 @@ using Project.Baw.Database;
 namespace Project.Baw.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260120181345_ChangeClientTable")]
+    partial class ChangeClientTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -487,38 +490,6 @@ namespace Project.Baw.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("services", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("c292215d-bafa-4ce4-9c45-1bd0ff54623e"),
-                            Name = "Cleaning",
-                            Price = 10.00m
-                        },
-                        new
-                        {
-                            Id = new Guid("b9fb52b0-f437-40df-9e84-634a25e37736"),
-                            Name = "Painting",
-                            Price = 20.00m
-                        },
-                        new
-                        {
-                            Id = new Guid("963a2269-cf14-4f59-bd14-6bce7620f941"),
-                            Name = "Carpentry",
-                            Price = 30.00m
-                        },
-                        new
-                        {
-                            Id = new Guid("504ae01b-230d-4556-a17c-e1d59acd01c1"),
-                            Name = "Plumbing",
-                            Price = 40.00m
-                        },
-                        new
-                        {
-                            Id = new Guid("097c35ce-592f-46e5-b3aa-152471521f17"),
-                            Name = "Gardening",
-                            Price = 50.00m
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

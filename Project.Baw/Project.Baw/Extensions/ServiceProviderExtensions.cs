@@ -45,8 +45,11 @@ public static class ServiceProviderExtensions
                     options.RegisterScopes(
                         OpenIddictConstants.Scopes.OpenId,
                         OpenIddictConstants.Scopes.Profile,
-                        "api");
-
+                        OpenIddictConstants.Scopes.Email,
+                        OpenIddictConstants.Scopes.OfflineAccess,
+                        "api"
+                    );
+                    
                     options.AddDevelopmentEncryptionCertificate()
                         .AddDevelopmentSigningCertificate();
 
